@@ -1,0 +1,37 @@
+original map size (to get same pixel size): 546, 674
+
+nodes:
+
+France:
+	Picardie - 465, 1088
+	Paris - 460, 1150
+	Normandie - 388, 1128
+	Champagne - 500, 1128
+	Bourbon - 440, 1170
+	Bretagne - 320, 1170
+	Anjou - 385, 1183
+	Aquitaine - 393, 1230
+	Languedoc - 443, 1310
+	Auvergne - 488, 1220
+	Provence - 550, 1258
+
+Spain:
+	Catalonia - 443, 1380
+	Valencia - 405, 1443
+	Aragon - 385, 1370
+	Navarra - 355, 1363
+	Castilla-Leon - 260, 1365
+	Cantabria - 313, 1360
+	Asturias - 258, 1355
+	Galicia - 208, 1353
+	Madrid - 338, 1433
+	Castilla-La-Mancha - 310, 1435
+	Extremadura - 268, 1463
+	Andalucia - 263, 1520
+	Murcia - 388, 1520
+
+
+
+
+
+
