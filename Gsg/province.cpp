@@ -20,6 +20,7 @@ void Province::create(const std::string& filename, const std::string& provOwner,
 	armyZone.setFillColor(sf::Color::Red);
 
 	isSelected = false;
+	hasArmy = false;
 
 	ID = filename;
 	owner = provOwner;
@@ -79,7 +80,10 @@ void Province::setMapMode(int newMode)
 
 	}
 
+
+
 	oldColor = img.getColor();
+	updateSelected();
 
 }
 
@@ -88,11 +92,22 @@ void Province::updateSelected()
 
 	if (isSelected)
 	{
-		img.setColor(sf::Color(50, 50, 50));
+		img.setColor(oldColor + sf::Color(50, 50, 50));
 	}
 	else
 	{
 		img.setColor(oldColor);
+	}
+
+
+
+	if (hasArmy)
+	{
+		armyZone.setFillColor(sf::Color::Green);
+	}
+	else
+	{
+		armyZone.setFillColor(sf::Color::Red);
 	}
 }
 

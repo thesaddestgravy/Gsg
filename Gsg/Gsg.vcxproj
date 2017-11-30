@@ -116,6 +116,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="army.cpp" />
+    <ClCompile Include="country.cpp" />
     <ClCompile Include="dbg_str.cpp" />
     <ClCompile Include="event_handler.cpp" />
     <ClCompile Include="main.cpp" />
@@ -124,6 +126,8 @@
     <ClCompile Include="world.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="army.h" />
+    <ClInclude Include="country.h" />
     <ClInclude Include="dbg_str.h" />
     <ClInclude Include="event_handler.h" />
     <ClInclude Include="province.h" />

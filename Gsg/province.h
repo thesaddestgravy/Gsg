@@ -3,6 +3,7 @@
 #include <SFML\Graphics.hpp>
 #include <string>
 
+
 class Province : public sf::Drawable
 {
 public:
@@ -14,6 +15,10 @@ public:
 	void updateSelected();
 
 	bool isSelected;
+	bool hasArmy;
+
+	sf::RectangleShape armyZone;
+
 	sf::Color oldColor;
 
 	sf::Color getColID();
@@ -32,7 +37,7 @@ private:
 	std::string resource;
 	std::string religion;
 
-	sf::RectangleShape armyZone;
+
 
 	sf::Color IDCol;
 	sf::Sprite img;

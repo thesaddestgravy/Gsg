@@ -1,6 +1,7 @@
 #pragma once
 
 #define PROVINCE_COUNT 100
+#define COUNTRY_COUNT 5
 
 #include <SFML\Graphics.hpp>
 
@@ -8,6 +9,7 @@
 #include <iostream>
 #include <vector>
 
+#include "country.h"
 #include "province.h"
 #include "dbg_str.h"
 
@@ -21,7 +23,7 @@ public:
 
 	void handleStateChange(sf::Time dt);
 	void handleKbdEvent(sf::Event evnt);
-	void handleMouseEvent(sf::Vector2i pos);
+	void handleMouseEvent(sf::Vector2i pos, std::string button);
 	void updateCursor(sf::RenderWindow* wnd);
 
 	void changeMapMode(int mode);
@@ -39,10 +41,14 @@ private:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 	void setProvinceClicked(sf::Vector2i mousePos);
+	void setArmyDestination(sf::Vector2i mousePos);
 
 	sf::RenderWindow* windowPtr;
 
 	Province provinces[PROVINCE_COUNT];
+	Country countries[COUNTRY_COUNT];
+
+	
 
 	DbgStr provinceMenu;
 	DbgStr hudText[10];

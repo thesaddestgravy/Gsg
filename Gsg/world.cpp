@@ -34,14 +34,14 @@ void World::init(int sw, int sh, sf::RenderWindow* wPtr)
 	hudView.setCenter(sf::Vector2f(scrw / 2.0, scrh / 2.0));
 
 	hudText[DEBUG_TOGGLE].create("Debug mode: on", "basis33", 32, sf::Vector2f(0, scrh - 15 - 25));
-	hudText[VERSION_HEADER].create("Frost v0.1.0 alpha build 17.11.25", "basis33", 26, sf::Vector2f(2, -9));
-	hudText[CURRENT_MAPMODE].create("Current mapmode: political", "basis33", 32, sf::Vector2f(scrw - 440, scrh - 38));
-	hudText[MAPMODE_DATA].create("NULL", "basis33", 32, sf::Vector2f(scrw - 440, scrh - 55));
-	hudText[PROVINCE_SELECTED_NAME].create("Province name: ", "basis33", 32, sf::Vector2f(scrw - 440, scrh - 75));
+	hudText[VERSION_HEADER].create("Frost v0.1.1-alpha build 17.11.30", "basis33", 26, sf::Vector2f(2, -9));
+	hudText[CURRENT_MAPMODE].create("Current mapmode: political", "basis33", 32, sf::Vector2f(scrw - 440, scrh - 42));
+	hudText[MAPMODE_DATA].create("NULL", "basis33", 32, sf::Vector2f(scrw - 440, scrh - 65));
+	hudText[PROVINCE_SELECTED_NAME].create("Province name: ", "basis33", 32, sf::Vector2f(scrw - 440, scrh - 87));
 	hudText[DATE].create("Day: ", "basis33", 32, sf::Vector2f(scrw - 400, -12));
 
 	selectedProvinceText[0].create("", "basis33", 32, sf::Vector2f(0, scrh - 15 - 55));
-	selectedProvinceText[1].create("", "basis33", 32, sf::Vector2f(0, scrh - 15 - 75));
+	selectedProvinceText[1].create("", "basis33", 32, sf::Vector2f(0, scrh - 15 - 85));
 	selectedProvinceText[2].create("", "basis33", 32, sf::Vector2f(0, scrh - 15 - 95));
 	selectedProvinceText[3].create("", "basis33", 32, sf::Vector2f(0, scrh - 15 - 115));
 
@@ -105,6 +105,25 @@ void World::init(int sw, int sh, sf::RenderWindow* wPtr)
 	provinces[33].create("extremadura", "Spain", sf::Vector2f(804, 4389), mapSprite.getPosition(), sf::Color(255, 203, 119), "textiles", "catholic");
 	provinces[34].create("andalucia", "Spain", sf::Vector2f(789, 4560), mapSprite.getPosition(), sf::Color(170, 0, 255), "wine", "catholic");
 	provinces[35].create("murcia", "Spain", sf::Vector2f(1164, 4560), mapSprite.getPosition(), sf::Color(0, 76, 255), "grain", "catholic");
+
+
+	countries[0].init("France", "paris", 100);
+
+
+	for (int i = 0; i < PROVINCE_COUNT; i++)
+	{
+		for (int j = 0; j < 1; j++)
+		{
+			if (countries[j].army.getLocation() == provinces[i].getID())
+			{
+				provinces[i].hasArmy = true;
+			}
+			else
+			{
+				provinces[i].hasArmy = false;
+			}
+		}
+	}
 
 	changeMapMode(1); //political as default mapmode
 
@@ -232,41 +251,52 @@ void World::handleKbdEvent(sf::Event evnt)
 
 }
 
-void World::handleMouseEvent(sf::Vector2i pos)
+void World::handleMouseEvent(sf::Vector2i pos, std::string button)
 {
-	setProvinceClicked(pos);
-
 	sf::Vector2f worldPos = windowPtr->mapPixelToCoords(pos);
 
-	provSelectedInfoStr = getProvinceClicked();
-
-	selectedProvinceText[0].set("ID: " + provSelectedInfoStr[0]);
-	selectedProvinceText[1].set("Owner: " + provSelectedInfoStr[1]);
-	selectedProvinceText[2].set("Resource: " + provSelectedInfoStr[2]);
-	selectedProvinceText[3].set("Religion: " + provSelectedInfoStr[3]);
-
-	hudText[PROVINCE_SELECTED_NAME].set("Province name: " + provSelectedInfoStr[0]);
-
-
-
-	if (hudText[CURRENT_MAPMODE].getString() == "Current mapmode: political")
+	if (button == "mouse_left")
 	{
-		hudText[MAPMODE_DATA].set(selectedProvinceText[1].getString());
-	}
-	else if (hudText[CURRENT_MAPMODE].getString() == "Current mapmode: resource")
-	{
-		hudText[MAPMODE_DATA].set(selectedProvinceText[2].getString());
-	}
-	else
-	{
-		hudText[MAPMODE_DATA].set("NULL");
-	}
-	provinceMenu.set(provSelectedInfoStr[0]);
-	sf::FloatRect testRect = provinceMenu.getBounds();
-	provinceMenu.setPos(worldPos + sf::Vector2f(7.f, -30.f) - sf::Vector2f(testRect.width / 2.0, testRect.height / 2.0));
+
+		setProvinceClicked(pos);
+
+		provSelectedInfoStr = getProvinceClicked();
+
+		selectedProvinceText[0].set("ID: " + provSelectedInfoStr[0]);
+		selectedProvinceText[1].set("Owner: " + provSelectedInfoStr[1]);
+		selectedProvinceText[2].set("Resource: " + provSelectedInfoStr[2]);
+		selectedProvinceText[3].set("Religion: " + provSelectedInfoStr[3]);
+
+		hudText[PROVINCE_SELECTED_NAME].set("Province name: " + provSelectedInfoStr[0]);
 
 
-	
+
+		if (hudText[CURRENT_MAPMODE].getString() == "Current mapmode: political")
+		{
+			hudText[MAPMODE_DATA].set(selectedProvinceText[1].getString());
+		}
+		else if (hudText[CURRENT_MAPMODE].getString() == "Current mapmode: resource")
+		{
+			hudText[MAPMODE_DATA].set(selectedProvinceText[2].getString());
+		}
+		else
+		{
+			hudText[MAPMODE_DATA].set("NULL");
+		}
+		provinceMenu.set(provSelectedInfoStr[0]);
+		sf::FloatRect menuRect = provinceMenu.getBounds();
+		provinceMenu.setPos(worldPos + sf::Vector2f(7.f, -30.f) - sf::Vector2f(menuRect.width / 2.0, menuRect.height / 2.0));
+
+	}
+
+	else if (button == "mouse_right")
+	{
+		if (countries[0].army.isSelected)
+		{
+			setArmyDestination(pos);
+		}
+	}
+
 }
 
 void World::updateCursor(sf::RenderWindow* wnd)
@@ -290,12 +320,25 @@ void World::setProvinceClicked(sf::Vector2i mousePos)
 		{
 			if (col == provinces[i].getColID())
 			{
-					provinces[i].isSelected = true;
-					selectedProvinceText[0].set(provinces[i].getID());
-					selectedProvinceText[1].set(provinces[i].getOwner());
-					selectedProvinceText[2].set(provinces[i].getResource());
-					selectedProvinceText[3].set(provinces[i].getReligion());
-					found = true;
+				provinces[i].isSelected = true;
+				selectedProvinceText[0].set(provinces[i].getID());
+				selectedProvinceText[1].set(provinces[i].getOwner());
+				selectedProvinceText[2].set(provinces[i].getResource());
+				selectedProvinceText[3].set(provinces[i].getReligion());
+				found = true;
+
+				if (provinces[i].armyZone.getGlobalBounds().contains(mousePos.x, mousePos.y))
+				{
+					if (provinces[i].hasArmy)
+					{
+						countries[0].army.isSelected = true;
+						std::cout << "army clicked!\n";
+					}
+				}
+				else
+				{
+					countries[0].army.isSelected = false;
+				}
 			}
 		}
 
@@ -309,6 +352,35 @@ void World::setProvinceClicked(sf::Vector2i mousePos)
 		selectedProvinceText[1].set("");
 		selectedProvinceText[2].set("");
 		selectedProvinceText[3].set("");
+	}
+
+}
+
+void World::setArmyDestination(sf::Vector2i mousePos)
+{
+	sf::Color col = provinceColorMap.getPixel(mousePos.x, mousePos.y);
+
+	bool found = false;
+
+	for (int i = 0; i < PROVINCE_COUNT; i++)
+	{
+		provinces[i].hasArmy = false;
+		provinces[i].isSelected = false;
+
+		if (!found)
+		{
+			if (col == provinces[i].getColID())
+			{
+				found = true;
+				provinces[i].hasArmy = true;
+				countries[0].army.setLocation(provinces[i].getID());
+			}
+			else
+			{
+				provinces[i].hasArmy = false;
+			}
+		}
+		provinces[i].updateSelected();
 	}
 
 }

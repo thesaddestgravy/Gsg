@@ -36,7 +36,12 @@ void EventHandler::execute(sf::Keyboard* kbd, sf::Mouse* ms, sf::Event* evnt, sf
 		{
 			if (evnt->mouseButton.button == ms->Left)
 			{
-				world->handleMouseEvent((sf::Vector2i)mouseWorldPos);
+				world->handleMouseEvent((sf::Vector2i)mouseWorldPos, "mouse_left");
+			}
+
+			if (evnt->mouseButton.button == ms->Right)
+			{
+				world->handleMouseEvent((sf::Vector2i)mouseWorldPos, "mouse_right");
 			}
 		}
 		break;

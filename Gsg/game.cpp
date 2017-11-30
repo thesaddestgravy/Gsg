@@ -22,7 +22,6 @@ Game::Game(int sw, int sh)
 	std::cout << "done.\n";
 
 	//loading screen code goes here...
-
 	sf::Sprite loadScreen;
 	sf::Texture loadTex;
 	loadTex.loadFromFile("res/loadscreen.png");
